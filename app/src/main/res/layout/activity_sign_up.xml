@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:scrollbars="none"
+    tools:context=".Activity.SignUpActivity">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:id="@+id/logoLayout"
+            android:layout_marginTop="4dp"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:src="@drawable/delivery"
+                android:layout_width="250dp"
+                android:layout_height="250dp" />
+        </LinearLayout>
+        <androidx.cardview.widget.CardView
+            android:layout_marginRight="24dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="24dp"
+            app:cardCornerRadius="15dp"
+            app:cardBackgroundColor="@color/colorPrimaryDark"
+            android:layout_below="@id/logoLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <RelativeLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_margin="16dp"
+                    android:id="@+id/signUpTv"
+                    android:layout_centerHorizontal="true"
+                    android:text="Sign Up"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <RelativeLayout
+                    android:id="@+id/nameLayout"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginBottom="8dp"
+                    android:padding="16dp"
+                    android:background="@drawable/circular_border"
+                    android:layout_below="@+id/signUpTv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="8dp"
+                        android:tint="@color/colorPrimaryDark"
+                        android:id="@+id/nameIv"
+                        android:src="@drawable/ic_account_circle_grey600_24dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <EditText
+                        android:id="@+id/nameEt"
+                        android:background="@null"
+                        android:singleLine="true"
+                        android:layout_centerVertical="true"
+                        android:hint="Enter your name"
+                        android:layout_toRightOf="@+id/nameIv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/emailLayout"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/circular_border"
+                    android:padding="16dp"
+                    android:layout_below="@+id/nameLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="8dp"
+                        android:id="@+id/emailIv"
+                        android:tint="@color/colorPrimaryDark"
+                        android:src="@drawable/ic_email_grey600_24dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <EditText
+                        android:layout_centerVertical="true"
+                        android:hint="Enter your email"
+                        android:background="@null"
+                        android:id="@+id/emailEt"
+                        android:singleLine="true"
+                        android:layout_toRightOf="@+id/emailIv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/phoneLayout"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="8dp"
+                    android:padding="16dp"
+                    android:background="@drawable/circular_border"
+                    android:layout_below="@+id/emailLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:tint="@color/colorPrimaryDark"
+                        android:layout_centerVertical="true"
+                        android:id="@+id/phoneIv"
+                        android:layout_marginRight="8dp"
+                        android:src="@drawable/ic_phone_classic_grey600_24dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <EditText
+                        android:id="@+id/contactEt"
+                        android:background="@null"
+                        android:inputType="phone"
+                        android:singleLine="true"
+                        android:layout_centerVertical="true"
+                        android:hint="Enter your phone number"
+                        android:layout_toRightOf="@+id/phoneIv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/passwordLayout"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:padding="16dp"
+                    android:background="@drawable/circular_border"
+                    android:layout_below="@+id/phoneLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="8dp"
+                        android:id="@+id/passwordIv"
+                        android:tint="@color/colorPrimaryDark"
+                        android:src="@drawable/ic_key_variant_grey600_24dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <EditText
+                        android:id="@+id/passwordEt"
+                        android:layout_centerVertical="true"
+                        android:hint="Enter your password"
+                        android:background="@null"
+                        android:singleLine="true"
+                        android:inputType="textPassword"
+                        android:layout_toRightOf="@+id/passwordIv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </RelativeLayout>
+
+                <Button
+                    android:layout_margin="16dp"
+                    android:layout_centerHorizontal="true"
+                    android:id="@+id/signUpbtn"
+                    android:layout_below="@+id/passwordLayout"
+                    android:text="Sign Up"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:background="@drawable/circular_background_blue"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content" />
+                <RelativeLayout
+                    android:layout_marginBottom="16dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_below="@id/signUpbtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_centerVertical="true"
+                        android:id="@+id/signupTv"
+                        android:text="Registered User?"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:layout_marginLeft="8dp"
+                        android:text="Log In"
+                        android:id="@+id/loginTv"
+                        android:textColor="@android:color/white"
+                        android:background="@android:color/transparent"
+                        android:layout_toRightOf="@id/signupTv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </RelativeLayout>
+
+
+            </RelativeLayout>
+
+        </androidx.cardview.widget.CardView>
+    </RelativeLayout>
+
+</ScrollView>
