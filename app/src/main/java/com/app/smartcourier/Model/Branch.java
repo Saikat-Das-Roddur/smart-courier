@@ -3,18 +3,9 @@ package com.app.smartcourier.Model;
 import com.google.gson.annotations.SerializedName;
 
 public class Branch {
-    @SerializedName("user") private User user;
-    @SerializedName("branchName") private String branchName;
-    @SerializedName("branchContact") private String branchContact;
-    @SerializedName("branchLocation") private String branchLocation;
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
+    @SerializedName("branch_name") private String branchName;
+    @SerializedName("branch_contact") private String branchContact;
+    @SerializedName("branch_location") private String branchLocation;
 
     public String getBranchName() {
         return branchName;

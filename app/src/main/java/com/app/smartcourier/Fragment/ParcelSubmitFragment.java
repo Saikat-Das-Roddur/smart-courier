@@ -1,5 +1,6 @@
 package com.app.smartcourier.Fragment;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -9,8 +10,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,7 +31,9 @@ import com.app.smartcourier.R;
 import com.app.smartcourier.Server.ApiClient;
 import com.app.smartcourier.Server.ApiInterface;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Random;
 import java.util.UUID;
 
@@ -39,8 +44,10 @@ import retrofit2.Response;
 public class ParcelSubmitFragment extends Fragment {
 
     EditText editTextTitle, editTextDesc;
-    TextView textViewLocation, textViewPayment, textViewBranch;
+    TextView textViewLocation, textViewPayment, textViewBranch,
+            textViewCash, textViewBkash,textViewDate;
     Button buttonSubmit;
+    RelativeLayout relativeLayoutBkash, relativeLayoutCash;
 
     //ProgressDialog progressDialog;
     //Adapter
@@ -59,8 +66,13 @@ public class ParcelSubmitFragment extends Fragment {
         editTextDesc = view.findViewById(R.id.descEt);
         textViewLocation = view.findViewById(R.id.locationTv);
         textViewPayment = view.findViewById(R.id.paymentTv);
+        textViewDate = view.findViewById(R.id.dateTv);
         textViewBranch = view.findViewById(R.id.branchTv);
         buttonSubmit = view.findViewById(R.id.submitBtn);
+
+        Date today = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        textViewDate.setText(formatter.format(today));
 
         Log.d(TAG, "onCreateView: "+UUID.randomUUID().toString().substring(27));
         sharedPreferences = context.getSharedPreferences(Config.SHARED_PREF_NAME, Context.MODE_PRIVATE);
@@ -76,6 +88,7 @@ public class ParcelSubmitFragment extends Fragment {
         textViewPayment.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
+                showDialog();
                 return false;
             }
         });
@@ -94,6 +107,36 @@ public class ParcelSubmitFragment extends Fragment {
         });
 
         return view;
+    }
+
+    private void showDialog() {
+        Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false);
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        dialog.setContentView(R.layout.payment_method_dialog);
+        relativeLayoutBkash = dialog.findViewById(R.id.bkashLayout);
+        relativeLayoutCash = dialog.findViewById(R.id.cashLayout);
+        textViewBkash = dialog.findViewById(R.id.bkashTv);
+        textViewCash = dialog.findViewById(R.id.cashTv);
+
+        relativeLayoutBkash.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                textViewPayment.setText(textViewBkash.getText().toString());
+            }
+        });
+
+        relativeLayoutCash.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                textViewPayment.setText(textViewCash.getText().toString());
+            }
+        });
+
+        dialog.show();
     }
 
     private void checkValidation() {

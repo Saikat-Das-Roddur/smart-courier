@@ -71,7 +71,7 @@ public class PaymentHistoryFragment extends Fragment {
 
         ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
         Call<List<Payment>> call;
-        call = apiInterface.getPaymentData(contact);
+        call = apiInterface.getPaymentData(contact,"");
         Log.d(TAG, "onCreate: "+context);
         call.enqueue(new Callback<List<Payment>>() {
             @Override

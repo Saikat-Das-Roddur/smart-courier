@@ -21,7 +21,28 @@ public class Parcel {
     @SerializedName("created_at") private String created_at;
     @SerializedName("updated_at") private String updated_at;
     @SerializedName("image") private String image;
-    @SerializedName("parcelStatus") private String parcelStatus;
+    @SerializedName("status") private String parcelStatus;
+
+    @Override
+    public String toString() {
+        return "Parcel{" +
+                "title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", contact_no='" + contact_no + '\'' +
+                ", tracking_id='" + tracking_id + '\'' +
+                ", location='" + location + '\'' +
+                ", payment_method='" + payment_method + '\'' +
+                ", branch='" + branch + '\'' +
+                ", time='" + time + '\'' +
+                ", date='" + date + '\'' +
+                ", value='" + value + '\'' +
+                ", massage='" + massage + '\'' +
+                ", created_at='" + created_at + '\'' +
+                ", updated_at='" + updated_at + '\'' +
+                ", image='" + image + '\'' +
+                ", parcelStatus='" + parcelStatus + '\'' +
+                '}';
+    }
 
     public String getTitle() {
         return title;

@@ -7,6 +7,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -17,11 +18,17 @@ import android.widget.Toast;
 
 import com.app.smartcourier.Config;
 import com.app.smartcourier.Model.BranchManager;
+import com.app.smartcourier.Model.OtherInfo;
 import com.app.smartcourier.Model.User;
 import com.app.smartcourier.R;
 import com.app.smartcourier.Server.ApiClient;
 import com.app.smartcourier.Server.ApiInterface;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Iterator;
 import java.util.List;
 
 import retrofit2.Call;
@@ -70,6 +77,8 @@ public class SignInActivity extends AppCompatActivity {
             }
         });
 
+        //getContactNo();
+
 
     }
 
@@ -88,66 +97,24 @@ public class SignInActivity extends AppCompatActivity {
 
     }
 
-    private void getProfileData() {
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setCancelable(false);
-        progressDialog.setTitle("Please wait...");
-        getUserdata(call);
-        getManagerData(callManager);
-    }
-
-    private void getManagerData(Call<List<BranchManager>> call) {
-        call.enqueue(new Callback<List<BranchManager>>() {
+    private void getContactNo(){
+        ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
+        Call<List<OtherInfo>> call = apiInterface.getUserContact();
+        Log.d(TAG, "getContactNo: "+call);
+        call.enqueue(new Callback<List<OtherInfo>>() {
             @Override
-            public void onResponse(Call<List<BranchManager>> call, Response<List<BranchManager>> response) {
+            public void onResponse(Call<List<OtherInfo>> call, Response<List<OtherInfo>> response) {
 
-                if (response.isSuccessful() && response.body() != null) {
-                    managerData = response.body();
-                    if (managerData.isEmpty()) {
-                        //Toasty.warning(ProfileActivity.this, R.string.no_data_found, Toast.LENGTH_SHORT).show();
-                        Toast.makeText(SignInActivity.this, "Data not found", Toast.LENGTH_SHORT).show();
-                    } else {
-                        contact = managerData.get(0).getContact()+"";
-                        Log.d(TAG, "onResponse: "+contact);
-                    }
-
-                }
+                Log.d(TAG, "Response: "+response.body().toString());
             }
 
             @Override
-            public void onFailure(Call<List<BranchManager>> call, Throwable t) {
-                progressDialog.dismiss();
-                Toast.makeText(SignInActivity.this,"Error!"+ t.getMessage(), Toast.LENGTH_SHORT).show();
-                Log.d("Error : ", t.toString());
+            public void onFailure(Call<List<OtherInfo>> call, Throwable t) {
+                Log.d(TAG, "onFailure: "+t.getMessage());
             }
         });
-    }
 
-    private void getUserdata(Call<List<User>> call) {
-        call.enqueue(new Callback<List<User>>() {
-            @Override
-            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
 
-                if (response.isSuccessful() && response.body() != null) {
-                    userData = response.body();
-                    if (userData.isEmpty()) {
-                        //Toasty.warning(ProfileActivity.this, R.string.no_data_found, Toast.LENGTH_SHORT).show();
-                        Toast.makeText(SignInActivity.this, "Data not found", Toast.LENGTH_SHORT).show();
-                    } else {
-                        contact = userData.get(0).getContact()+"";
-                        Log.d(TAG, "onResponse: "+contact);
-                    }
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<User>> call, Throwable t) {
-                progressDialog.dismiss();
-                Toast.makeText(SignInActivity.this,"Error!"+ t.getMessage(), Toast.LENGTH_SHORT).show();
-                Log.d("Error : ", t.toString());
-            }
-        });
     }
 
 

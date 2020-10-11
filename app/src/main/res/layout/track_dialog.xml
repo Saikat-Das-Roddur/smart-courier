@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_margin="8dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:id="@+id/parcelLayout"
+            android:padding="4dp"
+            android:layout_width="match_parent"
+            android:layout_marginBottom="8dp"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/trackIdIv"
+                android:src="@drawable/parcel_track"
+                android:layout_margin="8dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp" />
+            <TextView
+                android:textSize="24sp"
+                android:text="Track By Parcel"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/trackIdIv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/paymentLayout"
+            android:padding="4dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/tIv"
+                android:src="@drawable/online_payment"
+                android:layout_margin="8dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp" />
+            <TextView
+                android:textSize="24sp"
+                android:text="Track By Payment"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/tIv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

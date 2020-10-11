@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_margin="8dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:id="@+id/bkashLayout"
+            android:padding="4dp"
+            android:layout_width="match_parent"
+            android:layout_marginBottom="8dp"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/trackIdIv"
+                android:src="@drawable/bkash_bigger"
+                android:layout_margin="8dp"
+
+                android:scaleType="centerCrop"
+                android:layout_width="48dp"
+                android:layout_height="48dp" />
+            <TextView
+                android:id="@+id/bkashTv"
+                android:text="Bkash"
+                android:textSize="24sp"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/trackIdIv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/cashLayout"
+            android:padding="4dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/tIv"
+                android:background="@android:color/white"
+                android:src="@drawable/taka"
+                android:layout_margin="8dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp" />
+            <TextView
+                android:id="@+id/cashTv"
+                android:text="Cash"
+                android:textSize="24sp"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/tIv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

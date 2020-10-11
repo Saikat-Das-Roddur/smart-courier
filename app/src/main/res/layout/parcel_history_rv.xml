@@ -27,23 +27,35 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
+                android:id="@+id/trackIdTv"
                 android:textColor="#212121"
+                android:text="TrackID"
+                android:textSize="18sp"
+                android:layout_marginBottom="4dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/titleTv"
                 android:text="Title"
+                android:textSize="16sp"
                 android:layout_marginBottom="4dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
             <TextView
-                android:text="Date"
-                android:layout_marginBottom="4dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-            <TextView
+                android:id="@+id/descTv"
                 android:layout_marginBottom="4dp"
                 android:text="Description"
                 android:maxLines="5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
             <TextView
+                android:id="@+id/dateTv"
+                android:text="Date"
+                android:layout_marginBottom="4dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/locationTv"
                 android:text="Location"
                 android:layout_marginBottom="4dp"
                 android:layout_width="match_parent"
@@ -53,12 +65,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
+                    android:id="@+id/paymentTv"
                     android:layout_weight="1"
                     android:text="Payment Type"
                     android:layout_marginBottom="4dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
                 <TextView
+                    android:id="@+id/statusTv"
                     android:layout_weight="1"
                     android:text="Status"
                     android:layout_marginBottom="4dp"

@@ -1,6 +1,7 @@
 package com.app.smartcourier.Server;
 import com.app.smartcourier.Config;
 import com.app.smartcourier.Model.BranchManager;
+import com.app.smartcourier.Model.OtherInfo;
 import com.app.smartcourier.Model.Parcel;
 import com.app.smartcourier.Model.Payment;
 import com.app.smartcourier.Model.User;
@@ -85,13 +86,24 @@ public interface ApiInterface {
 
     @GET("get_payment_data.php")
     Call<List<Payment>> getPaymentData(
-            @Query("contact_no") String contact
+            @Query("contact_no") String contact,
+            @Query("tracking_id") String tracking_id
+    );
+
+    @GET("get_parcel_data.php")
+    Call<List<Parcel>> getParcelData(
+            @Query("contact_no") String contact,
+            @Query("tracking_id") String tracking_id
     );
 
     @GET("get_profile.php")
     Call<List<BranchManager>> getManagerProfile(
             @Query("contact") String contact
     );
+
+    @GET("get_user_contact.php")
+    Call<List<OtherInfo>> getUserContact();
+
 
 
     //for post rent payment

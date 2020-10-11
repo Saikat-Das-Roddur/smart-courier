@@ -72,9 +72,9 @@
                             android:layout_toRightOf="@+id/emailIv"
                             android:id="@+id/descEt"
                             android:layout_marginLeft="8dp"
-                            android:background="@null"
+                            android:background="@android:color/white"
                             android:layout_width="match_parent"
-                            android:layout_height="100dp" />
+                            android:layout_height="80dp" />
                     </RelativeLayout>
                     <RelativeLayout
                         android:background="@drawable/circular_border"
@@ -117,6 +117,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
                         <TextView
+                            android:singleLine="true"
                             android:hint="Long click to set payment method"
                             android:layout_centerVertical="true"
                             android:layout_toRightOf="@+id/contactIv"
@@ -148,6 +149,7 @@
                             android:id="@+id/branchTv"
                             android:layout_marginLeft="8dp"
                             android:background="@null"
+                            android:textSize="16sp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
                     </RelativeLayout>
@@ -166,8 +168,10 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
                         <TextView
+                            android:text="2020/10/10 13:13 "
                             android:layout_toRightOf="@+id/passwordIv"
                             android:id="@+id/dateTv"
+                            android:textSize="16sp"
                             android:layout_marginLeft="8dp"
                             android:background="@null"
                             android:layout_width="match_parent"
