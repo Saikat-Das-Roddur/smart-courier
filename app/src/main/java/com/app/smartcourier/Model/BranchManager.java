@@ -75,4 +75,18 @@ public class BranchManager {
     public void setMassage(String massage) {
         this.massage = massage;
     }
+
+    @Override
+    public String toString() {
+        return "BranchManager{" +
+                "name='" + name + '\'' +
+                ", contact='" + contact + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", location='" + location + '\'' +
+                ", branchName='" + branchName + '\'' +
+                ", value='" + value + '\'' +
+                ", massage='" + massage + '\'' +
+                '}';
+    }
 }

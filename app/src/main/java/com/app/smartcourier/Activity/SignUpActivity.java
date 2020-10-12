@@ -97,7 +97,6 @@ public class SignUpActivity extends AppCompatActivity {
                 if (response.body().getValue().equals("success")){
                     progressDialog.dismiss();
                     Log.d(TAG, "onResponse: "+response.body());
-
                     startActivity(new Intent(SignUpActivity.this,SignInActivity.class));
                     finish();
                 }

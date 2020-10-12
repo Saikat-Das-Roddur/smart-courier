@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.app.smartcourier.Config;
+import com.app.smartcourier.Model.Branch;
 import com.app.smartcourier.Model.BranchManager;
 import com.app.smartcourier.Model.OtherInfo;
 import com.app.smartcourier.Model.User;
@@ -44,12 +45,9 @@ public class SignInActivity extends AppCompatActivity {
     ProgressDialog progressDialog;
 
     ApiInterface apiInterface;
-    Call<List<User>> call;
-    Call<List<BranchManager>> callManager;
-    List<User> userData;
-    List<BranchManager> managerData;
 
     String TAG = getClass().getSimpleName(), contact="";
+    boolean isManager = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,11 +56,9 @@ public class SignInActivity extends AppCompatActivity {
         editTextPassword = findViewById(R.id.passwordEt);
         textViewSignUp = findViewById(R.id.signUpTv);
         buttonSignIn = findViewById(R.id.signInbtn);
-
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Please wait...");
         apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
-        call = apiInterface.getProfile(editTextContactNumber.getText().toString());
-        callManager = apiInterface.getManagerProfile(editTextContactNumber.getText().toString());
-
         buttonSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -77,7 +73,7 @@ public class SignInActivity extends AppCompatActivity {
             }
         });
 
-        //getContactNo();
+
 
 
     }
@@ -92,24 +88,55 @@ public class SignInActivity extends AppCompatActivity {
             editTextPassword.requestFocus();
         }
         else {
-            signIn();
+            getUserContactNo();
+            getManagerContactNo();
+            //signIn();
         }
 
     }
 
-    private void getContactNo(){
-        ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
-        Call<List<OtherInfo>> call = apiInterface.getUserContact();
+    private void getUserContactNo(){
+        progressDialog.show();
+        Call<List<User>> call = apiInterface.getProfile(editTextContactNumber.getText().toString());
         Log.d(TAG, "getContactNo: "+call);
-        call.enqueue(new Callback<List<OtherInfo>>() {
+        call.enqueue(new Callback<List<User>>() {
             @Override
-            public void onResponse(Call<List<OtherInfo>> call, Response<List<OtherInfo>> response) {
-
-                Log.d(TAG, "Response: "+response.body().toString());
+            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
+                if (response.body().size()>0){
+                    isManager = false;
+                    signIn();
+                    Log.d(TAG, "Response: "+response.body().get(0).getContact());
+                }
+                else {
+                    Log.d(TAG, "onResponse: ");
+                }
             }
 
             @Override
-            public void onFailure(Call<List<OtherInfo>> call, Throwable t) {
+            public void onFailure(Call<List<User>> call, Throwable t) {
+                Log.d(TAG, "onFailure: "+t.getMessage());
+            }
+        });
+
+
+    }
+    private void getManagerContactNo(){
+        progressDialog.show();
+        Call<List<BranchManager>> call = apiInterface.getManagerProfile(editTextContactNumber.getText().toString());
+        Log.d(TAG, "getContactNo: "+call);
+        call.enqueue(new Callback<List<BranchManager>>() {
+            @Override
+            public void onResponse(Call<List<BranchManager>> call, Response<List<BranchManager>> response) {
+                if (response.body().size()>0){
+                    isManager = true;
+                    signIn();
+                    Log.d(TAG, "Response: "+response.body().get(0).getContact());
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<List<BranchManager>> call, Throwable t) {
                 Log.d(TAG, "onFailure: "+t.getMessage());
             }
         });
@@ -120,45 +147,82 @@ public class SignInActivity extends AppCompatActivity {
 
     private void signIn() {
         //getProfileData();
-        final ProgressDialog progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("Please wait...");
-        progressDialog.show();
-        ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
-        Call<User> call = apiInterface.signIn(editTextContactNumber.getText().toString(), editTextPassword.getText().toString());
 
-        Log.d(TAG, "Contact: "+contact+" Password: "+editTextPassword.getText().toString());
+        Log.d(TAG, "signIn: "+isManager);
+        if (isManager){
+            Call<BranchManager> call = apiInterface.managerSignIn(editTextContactNumber.getText().toString(), editTextPassword.getText().toString());
 
-        call.enqueue(new Callback<User>() {
-            @Override
-            public void onResponse(Call<User> call, Response<User> response) {
-                if (response.body().getValue().equals("success")){
+            Log.d(TAG, "Contact: "+contact+" Password: "+editTextPassword.getText().toString());
+
+            call.enqueue(new Callback<BranchManager>() {
+                @Override
+                public void onResponse(Call<BranchManager> call, Response<BranchManager> response) {
+                    if (response.body().getValue().equals("success")){
+                        progressDialog.dismiss();
+                        SharedPreferences sp = SignInActivity.this.getSharedPreferences(Config.SHARED_PREF_NAME, Context.MODE_PRIVATE);
+
+                        //Creating editor to store values to shared preferences
+                        SharedPreferences.Editor editor = sp.edit();
+                        //Adding values to editor
+                        editor.putString(Config.CELL_SHARED_PREF, editTextContactNumber.getText().toString());
+
+                        //Saving values to editor
+                        editor.commit();
+
+                         Log.d(TAG, "You are manager "+isManager);
+//                        startActivity(new Intent(SignInActivity.this, MainActivity.class));
+//                        finish();
+                    }
+                    else{
+                        Log.d(TAG, "onResponse: "+call.request().body());
+                        progressDialog.dismiss();
+                        Toast.makeText(SignInActivity.this, response.body().getMassage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<BranchManager> call, Throwable t) {
                     progressDialog.dismiss();
-                    SharedPreferences sp = SignInActivity.this.getSharedPreferences(Config.SHARED_PREF_NAME, Context.MODE_PRIVATE);
+                    Toast.makeText(SignInActivity.this, "Error! "+t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        }else {
+            Call<User> call = apiInterface.signIn(editTextContactNumber.getText().toString(), editTextPassword.getText().toString());
 
-                    //Creating editor to store values to shared preferences
-                    SharedPreferences.Editor editor = sp.edit();
-                    //Adding values to editor
-                    editor.putString(Config.CELL_SHARED_PREF, editTextContactNumber.getText().toString());
+            Log.d(TAG, "Contact: "+contact+" Password: "+editTextPassword.getText().toString());
 
-                    //Saving values to editor
-                    editor.commit();
+            call.enqueue(new Callback<User>() {
+                @Override
+                public void onResponse(Call<User> call, Response<User> response) {
+                    if (response.body().getValue().equals("success")){
+                        progressDialog.dismiss();
+                        SharedPreferences sp = SignInActivity.this.getSharedPreferences(Config.SHARED_PREF_NAME, Context.MODE_PRIVATE);
 
-                   // Log.d(TAG, "onResponse: "+isManager);
+                        //Creating editor to store values to shared preferences
+                        SharedPreferences.Editor editor = sp.edit();
+                        //Adding values to editor
+                        editor.putString(Config.CELL_SHARED_PREF, editTextContactNumber.getText().toString());
+
+                        //Saving values to editor
+                        editor.commit();
+
+                        // Log.d(TAG, "onResponse: "+isManager);
                         startActivity(new Intent(SignInActivity.this, MainActivity.class));
                         finish();
+                    }
+                    else{
+                        Log.d(TAG, "onResponse: "+call.request().body());
+                        progressDialog.dismiss();
+                        Toast.makeText(SignInActivity.this, response.body().getMassage(), Toast.LENGTH_SHORT).show();
+                    }
                 }
-                else{
-                    Log.d(TAG, "onResponse: "+call.request().body());
-                    progressDialog.dismiss();
-                    Toast.makeText(SignInActivity.this, response.body().getMassage(), Toast.LENGTH_SHORT).show();
-                }
-            }
 
-            @Override
-            public void onFailure(Call<User> call, Throwable t) {
-                progressDialog.dismiss();
-                Toast.makeText(SignInActivity.this, "Error! "+t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
+                @Override
+                public void onFailure(Call<User> call, Throwable t) {
+                    progressDialog.dismiss();
+                    Toast.makeText(SignInActivity.this, "Error! "+t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 }

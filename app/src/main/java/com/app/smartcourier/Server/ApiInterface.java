@@ -1,5 +1,6 @@
 package com.app.smartcourier.Server;
 import com.app.smartcourier.Config;
+import com.app.smartcourier.Model.Branch;
 import com.app.smartcourier.Model.BranchManager;
 import com.app.smartcourier.Model.OtherInfo;
 import com.app.smartcourier.Model.Parcel;
@@ -79,8 +80,12 @@ public interface ApiInterface {
             @Field(Config.EMAIL) String email,
             @Field(Config.PASSWORD) String password);
 
-    @GET("get_profile.php")
+    @GET("get_user_profile.php")
     Call<List<User>> getProfile(
+            @Query("contact") String contact
+    );
+    @GET("get_manager_data.php")
+    Call<List<BranchManager>> getManagerProfile(
             @Query("contact") String contact
     );
 
@@ -95,14 +100,8 @@ public interface ApiInterface {
             @Query("contact_no") String contact,
             @Query("tracking_id") String tracking_id
     );
-
-    @GET("get_profile.php")
-    Call<List<BranchManager>> getManagerProfile(
-            @Query("contact") String contact
-    );
-
-    @GET("get_user_contact.php")
-    Call<List<OtherInfo>> getUserContact();
+    @GET("get_Branch.php")
+    Call<List<Branch>> getBranchData();
 
 
 

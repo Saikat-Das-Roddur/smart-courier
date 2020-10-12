@@ -3,12 +3,22 @@ package com.app.smartcourier.Model;
 import com.google.gson.annotations.SerializedName;
 
 public class OtherInfo {
-    @SerializedName("contact")  String contact;
+    @SerializedName("user")  String user;
+    @SerializedName("manager")  String manager;
+
+    public String getUser() {
+        return user;
+    }
+
+    public String getManager() {
+        return manager;
+    }
 
     @Override
     public String toString() {
         return "OtherInfo{" +
-                "contact='" + contact + '\'' +
+                "user='" + user + '\'' +
+                ", manager='" + manager + '\'' +
                 '}';
     }
 }

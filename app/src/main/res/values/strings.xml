@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">SmartCourier</string>
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyDWedDx7IhsvQ0A9GK5mS5oktz20NGrkSI</string>
+
 </resources>
