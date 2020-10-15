@@ -52,14 +52,41 @@ public interface ApiInterface {
             @Field("title") String title,
             @Field("description") String desc,
             @Field("location") String location,
+            @Field("latitude") String latitude,
+            @Field("longitude") String longitude,
             @Field("payment_method") String payment_method,
             @Field("branch") String branch,
             @Field("time") String time,
             @Field("date") String date,
-            @Field("status") String status
+            @Field("status") String status);
 
+    @FormUrlEncoded
+    @POST("manager_submit_parcel.php")
+    Call<Parcel> managerSubmitParcel(
+            @Field("tracking_id") String tracking_id,
+            @Field("contact_no") String contact_no,
+            @Field("title") String title,
+            @Field("description") String desc,
+            @Field("location") String location,
+            @Field("payment_method") String payment_method,
+            @Field("branch") String branch,
+            @Field("time") String time,
+            @Field("date") String date,
+            @Field("status") String status);
+    @FormUrlEncoded
+    @POST("manager_update_parcel.php")
+    Call<Parcel> managerUpdateParcel(
+            @Field("tracking_id") String tracking_id,
+            @Field("contact_no") String contact_no,
+            @Field("title") String title,
+            @Field("description") String desc,
+            @Field("location") String location,
+            @Field("payment_method") String payment_method,
+            @Field("branch") String branch,
+            @Field("time") String time,
+            @Field("date") String date,
+            @Field("status") String status);
 
-    );
 
     @FormUrlEncoded
     @POST("submit_payment.php")
@@ -74,11 +101,30 @@ public interface ApiInterface {
     );
 
     @FormUrlEncoded
+    @POST("manager_submit_payment.php")
+    Call<Payment> managerSubmitPayment(
+            @Field( "tracking_id")  String tracking_id,
+            @Field( "bkash_trx_id")  String bkash_trx_id,
+            @Field( "bkash_number")  String bkash_number,
+            @Field( "contact_no")  String contact_no,
+            @Field( "amount")  String amount,
+            @Field( "branch")  String branch,
+            @Field( "date")  String date,
+            @Field( "time")  String time,
+            @Field( "payment_status")  String paymentStatus
+    );
+
+    @FormUrlEncoded
     @POST("update_profile.php")
     Call<User> updateProfile(
             @Field(Config.NAME) String name,
             @Field(Config.EMAIL) String email,
             @Field(Config.PASSWORD) String password);
+
+    @FormUrlEncoded
+    @POST("update_manager.php")
+    Call<BranchManager> updateManager(
+            @Field("request") String request);
 
     @GET("get_user_profile.php")
     Call<List<User>> getProfile(
@@ -102,6 +148,10 @@ public interface ApiInterface {
     );
     @GET("get_Branch.php")
     Call<List<Branch>> getBranchData();
+    @GET("get_branched_parcel_data.php")
+    Call<List<Parcel>> getBranchedParcel(
+            @Query("branch") String branch
+    );
 
 
 

@@ -10,6 +10,8 @@ public class Parcel {
     @SerializedName("contact_no") private String contact_no;
     @SerializedName("tracking_id") private String tracking_id;
     @SerializedName("location") private String location;
+    @SerializedName("latitude") private String latitude;
+    @SerializedName("longitude") private String longitude;
     @SerializedName("payment_method") private String payment_method;
     @SerializedName("branch") private String branch;
     @SerializedName("time") private String time;
@@ -17,7 +19,6 @@ public class Parcel {
 
     @SerializedName("value") private String value;
     @SerializedName("message") private String massage;
-    //@SerializedName("transactionId") private String transactionId;
     @SerializedName("created_at") private String created_at;
     @SerializedName("updated_at") private String updated_at;
     @SerializedName("image") private String image;
@@ -31,6 +32,8 @@ public class Parcel {
                 ", contact_no='" + contact_no + '\'' +
                 ", tracking_id='" + tracking_id + '\'' +
                 ", location='" + location + '\'' +
+                ", latitude=" + latitude +
+                ", longitude=" + longitude +
                 ", payment_method='" + payment_method + '\'' +
                 ", branch='" + branch + '\'' +
                 ", time='" + time + '\'' +
@@ -42,6 +45,14 @@ public class Parcel {
                 ", image='" + image + '\'' +
                 ", parcelStatus='" + parcelStatus + '\'' +
                 '}';
+    }
+
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public String getLongitude() {
+        return longitude;
     }
 
     public String getTitle() {

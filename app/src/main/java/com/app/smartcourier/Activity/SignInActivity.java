@@ -2,12 +2,10 @@ package com.app.smartcourier.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -16,20 +14,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.app.smartcourier.Activity.ManagerActivity.ManagerActivity;
+import com.app.smartcourier.Activity.UserActivity.UserActivity;
 import com.app.smartcourier.Config;
-import com.app.smartcourier.Model.Branch;
 import com.app.smartcourier.Model.BranchManager;
-import com.app.smartcourier.Model.OtherInfo;
 import com.app.smartcourier.Model.User;
 import com.app.smartcourier.R;
 import com.app.smartcourier.Server.ApiClient;
 import com.app.smartcourier.Server.ApiInterface;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.Iterator;
 import java.util.List;
 
 import retrofit2.Call;
@@ -46,7 +39,7 @@ public class SignInActivity extends AppCompatActivity {
 
     ApiInterface apiInterface;
 
-    String TAG = getClass().getSimpleName(), contact="";
+    String TAG = getClass().getSimpleName(), contact="",branch="";
     boolean isManager = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,6 +97,7 @@ public class SignInActivity extends AppCompatActivity {
             public void onResponse(Call<List<User>> call, Response<List<User>> response) {
                 if (response.body().size()>0){
                     isManager = false;
+
                     signIn();
                     Log.d(TAG, "Response: "+response.body().get(0).getContact());
                 }
@@ -129,8 +123,9 @@ public class SignInActivity extends AppCompatActivity {
             public void onResponse(Call<List<BranchManager>> call, Response<List<BranchManager>> response) {
                 if (response.body().size()>0){
                     isManager = true;
+                    branch =response.body().get(0).getBranchName();
                     signIn();
-                    Log.d(TAG, "Response: "+response.body().get(0).getContact());
+                    Log.d(TAG, "Response: "+response.body());
                 }
 
             }
@@ -164,14 +159,15 @@ public class SignInActivity extends AppCompatActivity {
                         //Creating editor to store values to shared preferences
                         SharedPreferences.Editor editor = sp.edit();
                         //Adding values to editor
+                        editor.putString(Config.Branch_SHARED_PREF, branch);
                         editor.putString(Config.CELL_SHARED_PREF, editTextContactNumber.getText().toString());
 
                         //Saving values to editor
                         editor.commit();
 
-                         Log.d(TAG, "You are manager "+isManager);
-//                        startActivity(new Intent(SignInActivity.this, MainActivity.class));
-//                        finish();
+                         Log.d(TAG, "You are manager "+branch);
+                        startActivity(new Intent(SignInActivity.this, ManagerActivity.class));
+                        finish();
                     }
                     else{
                         Log.d(TAG, "onResponse: "+call.request().body());
@@ -207,7 +203,7 @@ public class SignInActivity extends AppCompatActivity {
                         editor.commit();
 
                         // Log.d(TAG, "onResponse: "+isManager);
-                        startActivity(new Intent(SignInActivity.this, MainActivity.class));
+                        startActivity(new Intent(SignInActivity.this, UserActivity.class));
                         finish();
                     }
                     else{

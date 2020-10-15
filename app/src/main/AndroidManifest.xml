@@ -3,29 +3,38 @@
     package="com.app.smartcourier">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
 
     <application
-        android:hardwareAccelerated="false"
-        android:largeHeap="true"
         android:allowBackup="true"
+        android:hardwareAccelerated="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".Activity.ManagerActivity.ManagerParcelTrackActivity"></activity>
+        <activity android:name=".Activity.ManagerActivity.ParcelRequestActivity" />
+        <activity android:name=".Activity.ManagerActivity.MangerProfileActivity" />
+        <activity android:name=".Activity.ManagerActivity.ManagerActivity" />
+        <activity android:name=".Activity.ManagerActivity.ManagerParcelActivity" />
+        <activity android:name=".Activity.ManagerActivity.ManagerPaymentActivity" />
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key"/>
-        <activity android:name=".Activity.ProfileActivity"></activity>
-        <activity android:name=".Activity.PaymentActivity" />
-        <activity android:name=".Activity.BranchActivity" />
-        <activity android:name=".Activity.ParcelPickActivity" />
-        <activity android:name=".Activity.ParcelTrackActivity" />
+            android:value="@string/google_maps_key" />
+
+        <activity android:name=".Activity.UserActivity.ProfileActivity" />
+        <activity android:name=".Activity.UserActivity.PaymentActivity" />
+        <activity android:name=".Activity.UserActivity.BranchActivity" />
+        <activity android:name=".Activity.UserActivity.ParcelPickActivity" />
+        <activity android:name=".Activity.UserActivity.ParcelTrackActivity" />
         <activity android:name=".Activity.SignUpActivity" />
         <activity android:name=".Activity.SignInActivity" />
-        <activity android:name=".Activity.MainActivity" />
+        <activity android:name=".Activity.UserActivity.UserActivity" />
         <activity android:name=".Activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

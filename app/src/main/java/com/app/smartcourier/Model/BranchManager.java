@@ -8,7 +8,7 @@ public class BranchManager {
     @SerializedName("email") private String email;
     @SerializedName("password") private String password;
     @SerializedName("location") private String location;
-    @SerializedName("branchName") private String branchName;
+    @SerializedName("branch_name") private String branchName;
     @SerializedName("value") private String value;
     @SerializedName("message") private String massage;
 

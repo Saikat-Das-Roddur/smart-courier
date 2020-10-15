@@ -14,8 +14,8 @@ public class Payment {
     @SerializedName("value") private String value;
     @SerializedName("message") private String message;
     @SerializedName("paymentMonth") private String paymentMonth;
-    @SerializedName("paymentDate") private String paymentDate;
-    @SerializedName("paymentTime") private String paymentTime;
+    @SerializedName("date") private String paymentDate;
+    @SerializedName("time") private String paymentTime;
 
     public String getValue() {
         return value;
