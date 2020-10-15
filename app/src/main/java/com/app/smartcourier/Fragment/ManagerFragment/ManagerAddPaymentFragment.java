@@ -68,6 +68,8 @@ public class ManagerAddPaymentFragment extends Fragment {
         sharedPreferences =context.getSharedPreferences(Config.SHARED_PREF_NAME, Context.MODE_PRIVATE);
         branch = sharedPreferences.getString(Config.Branch_SHARED_PREF, "Not Available");
 
+        textViewBranch.setText(branch);
+
         textViewBranch.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
