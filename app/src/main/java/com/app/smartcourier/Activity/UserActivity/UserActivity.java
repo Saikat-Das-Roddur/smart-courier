@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import com.app.smartcourier.Activity.ParcelTrackActivity;
 import com.app.smartcourier.Activity.SignInActivity;
 import com.app.smartcourier.R;
 
@@ -30,7 +31,7 @@ public class UserActivity extends AppCompatActivity {
         cardViewTrack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(UserActivity.this,ParcelTrackActivity.class));
+                startActivity(new Intent(UserActivity.this, ParcelTrackActivity.class));
             }
         });
         cardViewPickUp.setOnClickListener(new View.OnClickListener() {

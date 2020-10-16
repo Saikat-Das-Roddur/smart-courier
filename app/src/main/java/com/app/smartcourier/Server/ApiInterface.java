@@ -141,6 +141,11 @@ public interface ApiInterface {
             @Query("tracking_id") String tracking_id
     );
 
+    @GET("get_branched_payment_data.php")
+    Call<List<Payment>> getManagerPayment(
+            @Query("branch") String branch
+    );
+
     @GET("get_parcel_data.php")
     Call<List<Parcel>> getParcelData(
             @Query("contact_no") String contact,

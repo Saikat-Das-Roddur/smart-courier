@@ -1,4 +1,4 @@
-package com.app.smartcourier.Activity.UserActivity;
+package com.app.smartcourier.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;

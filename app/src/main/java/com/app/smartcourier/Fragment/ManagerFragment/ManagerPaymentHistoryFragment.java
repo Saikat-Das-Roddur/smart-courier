@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.app.smartcourier.Adapter.ManagerAdapter.ManagerPaymentHistoryAdapter;
 import com.app.smartcourier.Adapter.UserAdapter.PaymentHistoryAdapter;
 import com.app.smartcourier.Config;
 import com.app.smartcourier.Model.Payment;
@@ -32,7 +33,7 @@ import retrofit2.Response;
 public class ManagerPaymentHistoryFragment extends Fragment {
 
     RecyclerView recyclerView;
-    PaymentHistoryAdapter paymentHistoryAdapter;
+    ManagerPaymentHistoryAdapter paymentHistoryAdapter;
     SharedPreferences sharedPreferences;
     ProgressDialog progressDialog;
     LinearLayoutManager layoutManager;
@@ -42,7 +43,7 @@ public class ManagerPaymentHistoryFragment extends Fragment {
     List<Payment> paymentList;
 
     Context context;
-    String TAG = getClass().getSimpleName(),contact = "";
+    String TAG = getClass().getSimpleName(),branch = "";
 
     @Nullable
     @Override
@@ -52,7 +53,7 @@ public class ManagerPaymentHistoryFragment extends Fragment {
         recyclerView = view.findViewById(R.id.historyPaymentRv);
 
         sharedPreferences =context.getSharedPreferences(Config.SHARED_PREF_NAME, Context.MODE_PRIVATE);
-        contact = sharedPreferences.getString(Config.CELL_SHARED_PREF, "Not Available");
+        branch = sharedPreferences.getString(Config.Branch_SHARED_PREF, "Not Available");
         layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
         getPaymentData();
@@ -67,7 +68,7 @@ public class ManagerPaymentHistoryFragment extends Fragment {
 
         ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
         Call<List<Payment>> call;
-        call = apiInterface.getPaymentData(contact,"");
+        call = apiInterface.getManagerPayment(branch);
         Log.d(TAG, "onCreate: "+context);
         call.enqueue(new Callback<List<Payment>>() {
             @Override
@@ -80,7 +81,7 @@ public class ManagerPaymentHistoryFragment extends Fragment {
                         Toast.makeText(context, "Data not found", Toast.LENGTH_SHORT).show();
                     } else {
                         Log.d(TAG, "onResponse: "+response.body());
-                        paymentHistoryAdapter = new PaymentHistoryAdapter(context,response.body());
+                        paymentHistoryAdapter = new ManagerPaymentHistoryAdapter(context,response.body());
                         recyclerView.setAdapter(paymentHistoryAdapter);
                         paymentHistoryAdapter.notifyDataSetChanged();
 

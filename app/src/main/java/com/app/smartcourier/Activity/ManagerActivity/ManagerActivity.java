@@ -8,11 +8,6 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.app.smartcourier.Activity.SignInActivity;
-import com.app.smartcourier.Activity.UserActivity.BranchActivity;
-import com.app.smartcourier.Activity.UserActivity.ParcelPickActivity;
-import com.app.smartcourier.Activity.UserActivity.ParcelTrackActivity;
-import com.app.smartcourier.Activity.UserActivity.PaymentActivity;
-import com.app.smartcourier.Activity.UserActivity.ProfileActivity;
 import com.app.smartcourier.R;
 
 public class ManagerActivity extends AppCompatActivity {

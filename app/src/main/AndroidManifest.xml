@@ -31,7 +31,7 @@
         <activity android:name=".Activity.UserActivity.PaymentActivity" />
         <activity android:name=".Activity.UserActivity.BranchActivity" />
         <activity android:name=".Activity.UserActivity.ParcelPickActivity" />
-        <activity android:name=".Activity.UserActivity.ParcelTrackActivity" />
+        <activity android:name=".Activity.ParcelTrackActivity" />
         <activity android:name=".Activity.SignUpActivity" />
         <activity android:name=".Activity.SignInActivity" />
         <activity android:name=".Activity.UserActivity.UserActivity" />
