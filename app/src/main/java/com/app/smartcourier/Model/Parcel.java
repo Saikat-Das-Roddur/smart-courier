@@ -14,6 +14,7 @@ public class Parcel {
     @SerializedName("longitude") private String longitude;
     @SerializedName("payment_method") private String payment_method;
     @SerializedName("branch") private String branch;
+    @SerializedName( "dest_branch")  String dest_branch;
     @SerializedName("time") private String time;
     @SerializedName("date") private String date;
 
@@ -45,6 +46,10 @@ public class Parcel {
                 ", image='" + image + '\'' +
                 ", parcelStatus='" + parcelStatus + '\'' +
                 '}';
+    }
+
+    public String getDest_branch() {
+        return dest_branch;
     }
 
     public String getLatitude() {

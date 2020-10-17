@@ -17,6 +17,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.app.smartcourier.Adapter.ManagerAdapter.ManagerParcelHistoryAdapter;
+import com.app.smartcourier.Adapter.ManagerAdapter.ManagerPaymentHistoryAdapter;
 import com.app.smartcourier.Adapter.UserAdapter.ParcelHistoryAdapter;
 import com.app.smartcourier.Adapter.UserAdapter.PaymentHistoryAdapter;
 import com.app.smartcourier.Config;
@@ -40,6 +42,8 @@ public class ParcelTrackActivity extends AppCompatActivity {
     //Adapter
     PaymentHistoryAdapter paymentHistoryAdapter;
     ParcelHistoryAdapter parcelHistoryAdapter;
+    ManagerPaymentHistoryAdapter managerPaymentHistoryAdapter;
+    ManagerParcelHistoryAdapter managerParcelHistoryAdapter;
 
     List<Payment> paymentList;
     List<Parcel> parcelList;
@@ -51,7 +55,7 @@ public class ParcelTrackActivity extends AppCompatActivity {
 
     SharedPreferences sharedPreferences;
     boolean isParcel=false;
-    String contact = "",TAG = getClass().getSimpleName();
+    String contact = "",branch = "",TAG = getClass().getSimpleName();
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,12 +67,16 @@ public class ParcelTrackActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerView);
         sharedPreferences =getSharedPreferences(Config.SHARED_PREF_NAME, Context.MODE_PRIVATE);
         contact = sharedPreferences.getString(Config.CELL_SHARED_PREF, "Not Available");
+        branch = sharedPreferences.getString(Config.Branch_SHARED_PREF, "Not Available");
 
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        getPaymentData(contact);
-
-
+        Log.d(TAG, "Contact: "+contact);
+        Log.d(TAG, "Contact: "+branch);
+        if (contact.equals(""))
+            getBranchParcelData(branch);
+        else
+            getParcelData(contact);
         imageViewFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,6 +94,52 @@ public class ParcelTrackActivity extends AppCompatActivity {
                         getPaymentData(editTextSearch.getText().toString());
                 }
 
+            }
+        });
+
+    }
+
+    private void getBranchParcelData(String branch) {
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setCancelable(false);
+        progressDialog.setTitle("Please wait...");
+
+        ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
+        Call<List<Parcel>> call;
+        call = apiInterface.getManagerParcel(branch);
+
+
+        Log.d(TAG, "onCreate: "+this);
+        call.enqueue(new Callback<List<Parcel>>() {
+            @Override
+            public void onResponse(Call<List<Parcel>> call, Response<List<Parcel>> response) {
+
+                if (response.isSuccessful() && response.body() != null) {
+                    parcelList = response.body();
+                    if (response.body().isEmpty()) {
+                        //Toasty.warning(ProfileActivity.this, R.string.no_data_found, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ParcelTrackActivity.this, "Data not found", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Log.d(TAG, "onResponse: "+response.body());
+                        managerParcelHistoryAdapter = new ManagerParcelHistoryAdapter(response.body(),ParcelTrackActivity.this);
+                        recyclerView.setAdapter(managerParcelHistoryAdapter);
+                        managerParcelHistoryAdapter.notifyDataSetChanged();
+
+//                        Log.d(TAG, "onResponse: "+paymentList.toString());
+//                        editTextName.setText(profileData.get(0).getName());
+//                        textViewContact.setText(profileData.get(0).getContact());
+//                        editTextPassword.setText(profileData.get(0).getPassword());
+//                        editTextEmail.setText(profileData.get(0).getEmail());
+                    }
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Parcel>> call, Throwable t) {
+                progressDialog.dismiss();
+                Toast.makeText(ParcelTrackActivity.this,"Error!"+ t.getMessage(), Toast.LENGTH_SHORT).show();
+                Log.d("Error : ", t.toString());
             }
         });
 
@@ -121,10 +175,6 @@ public class ParcelTrackActivity extends AppCompatActivity {
                         paymentHistoryAdapter.notifyDataSetChanged();
 
                         Log.d(TAG, "onResponse: "+paymentList.toString());
-//                        editTextName.setText(profileData.get(0).getName());
-//                        textViewContact.setText(profileData.get(0).getContact());
-//                        editTextPassword.setText(profileData.get(0).getPassword());
-//                        editTextEmail.setText(profileData.get(0).getEmail());
                     }
 
                 }
@@ -202,7 +252,9 @@ public class ParcelTrackActivity extends AppCompatActivity {
             public void onClick(View v) {
                 dialog.dismiss();
                 isParcel = false;
-                getPaymentData(contact);
+                if (contact.equals(""))
+                  getBranchPaymentData(branch);
+                else getPaymentData(contact);
             }
         });
 
@@ -211,10 +263,57 @@ public class ParcelTrackActivity extends AppCompatActivity {
             public void onClick(View v) {
                 dialog.dismiss();
                 isParcel = true;
-                getParcelData(contact);
+                if (contact.equals(""))
+                    getBranchParcelData(branch);
+                else getParcelData(contact);
             }
         });
 
         dialog.show();
+    }
+
+    private void getBranchPaymentData(String branch) {
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setCancelable(false);
+        progressDialog.setTitle("Please wait...");
+
+        ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
+        Call<List<Payment>> call;
+        call = apiInterface.getManagerPayment(branch);
+
+
+        Log.d(TAG, "onCreate: "+this);
+        call.enqueue(new Callback<List<Payment>>() {
+            @Override
+            public void onResponse(Call<List<Payment>> call, Response<List<Payment>> response) {
+
+                if (response.isSuccessful() && response.body() != null) {
+                    paymentList = response.body();
+                    if (response.body().isEmpty()) {
+                        //Toasty.warning(ProfileActivity.this, R.string.no_data_found, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ParcelTrackActivity.this, "Data not found", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Log.d(TAG, "onResponse: "+response.body());
+                        managerPaymentHistoryAdapter = new ManagerPaymentHistoryAdapter(ParcelTrackActivity.this,response.body());
+                        recyclerView.setAdapter(managerPaymentHistoryAdapter);
+                        managerPaymentHistoryAdapter.notifyDataSetChanged();
+
+                        Log.d(TAG, "onResponse: "+paymentList.toString());
+//                        editTextName.setText(profileData.get(0).getName());
+//                        textViewContact.setText(profileData.get(0).getContact());
+//                        editTextPassword.setText(profileData.get(0).getPassword());
+//                        editTextEmail.setText(profileData.get(0).getEmail());
+                    }
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Payment>> call, Throwable t) {
+                progressDialog.dismiss();
+                Toast.makeText(ParcelTrackActivity.this,"Error!"+ t.getMessage(), Toast.LENGTH_SHORT).show();
+                Log.d("Error : ", t.toString());
+            }
+        });
     }
 }

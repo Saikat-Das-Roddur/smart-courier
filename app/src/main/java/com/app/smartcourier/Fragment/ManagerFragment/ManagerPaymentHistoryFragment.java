@@ -86,10 +86,6 @@ public class ManagerPaymentHistoryFragment extends Fragment {
                         paymentHistoryAdapter.notifyDataSetChanged();
 
                         Log.d(TAG, "onResponse: "+paymentList.toString());
-//                        editTextName.setText(profileData.get(0).getName());
-//                        textViewContact.setText(profileData.get(0).getContact());
-//                        editTextPassword.setText(profileData.get(0).getPassword());
-//                        editTextEmail.setText(profileData.get(0).getEmail());
                     }
 
                 }
@@ -99,7 +95,7 @@ public class ManagerPaymentHistoryFragment extends Fragment {
             public void onFailure(Call<List<Payment>> call, Throwable t) {
                 progressDialog.dismiss();
                 Toast.makeText(context,"Error!"+ t.getMessage(), Toast.LENGTH_SHORT).show();
-                Log.d("Error : ", t.toString());
+                Log.d("Error : ", t.getMessage());
             }
         });
 

@@ -16,4 +16,5 @@ public class Config {
     //This would be used to store the cell of current logged in user
     public static final String CELL_SHARED_PREF = "contact";
     public static final String Branch_SHARED_PREF = "branch";
+    public static final String Manager_Cell_SHARED_PREF = "manager_contact";
 }

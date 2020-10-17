@@ -103,10 +103,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <ImageView
-                        android:padding="16dp"
+                        android:padding="36dp"
                         android:adjustViewBounds="true"
                         android:id="@+id/branchIv"
-                        android:src="@drawable/branch"
+                        android:src="@drawable/parcel_request"
                         android:layout_width="match_parent"
                         android:layout_height="150dp" />
                     <TextView
@@ -118,7 +118,7 @@
                         android:textSize="16sp"
                         android:textStyle="bold"
                         android:textAlignment="center"
-                        android:text="Branches"
+                        android:text="Parcel Requests"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
                 </RelativeLayout>

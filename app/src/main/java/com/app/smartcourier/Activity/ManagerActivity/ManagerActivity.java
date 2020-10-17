@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import com.app.smartcourier.Activity.ParcelTrackActivity;
 import com.app.smartcourier.Activity.SignInActivity;
 import com.app.smartcourier.R;
 
@@ -31,7 +32,7 @@ public class ManagerActivity extends AppCompatActivity {
         cardViewTrack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ManagerActivity.this, ParcelRequestActivity.class));
+                startActivity(new Intent(ManagerActivity.this, ParcelTrackActivity.class));
             }
         });
         cardViewPickUp.setOnClickListener(new View.OnClickListener() {
@@ -43,13 +44,13 @@ public class ManagerActivity extends AppCompatActivity {
         cardViewBranch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ManagerActivity.this, ManagerPaymentActivity.class));
+                startActivity(new Intent(ManagerActivity.this, ParcelRequestActivity.class));
             }
         });
         cardViewPayment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ManagerActivity.this, ManagerParcelTrackActivity.class));
+                startActivity(new Intent(ManagerActivity.this, ManagerPaymentActivity.class));
             }
         });
         cardViewProfile.setOnClickListener(new View.OnClickListener() {

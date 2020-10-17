@@ -1,5 +1,6 @@
 package com.app.smartcourier.Fragment.ManagerFragment;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -9,8 +10,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,10 +41,12 @@ import retrofit2.Response;
 public class ManagerAddPaymentFragment extends Fragment {
 
     EditText editTextTrackId,editTextBkashTrxId,editTextBkashNo,editTextAmount,editTextContact;
-    TextView textViewBranch,textViewDate,textViewTime;
+    TextView textViewBranch,textViewDate,textViewTime,
+            textViewPaymentMethod,textViewBkash,textViewCash;
+    RelativeLayout relativeLayoutBkash, relativeLayoutCash,relativeLayoutTrxId,relativeLayoutBkashNo;
     Button buttonSubmit;
     SharedPreferences sharedPreferences;
-    ArrayList<String> branches = new ArrayList<>();
+
 
     Context context;
     String TAG = getClass().getSimpleName(),branch = "";
@@ -60,8 +65,11 @@ public class ManagerAddPaymentFragment extends Fragment {
         textViewBranch = view.findViewById(R.id.branchTv);
         textViewDate = view.findViewById(R.id.dateTv);
         textViewTime = view.findViewById(R.id.timeTv);
-        buttonSubmit = view.findViewById(R.id.submitBtn);
+        textViewPaymentMethod = view.findViewById(R.id.paymentMethodTv);
+        relativeLayoutTrxId = view.findViewById(R.id.trxLayout);
+        relativeLayoutBkashNo = view.findViewById(R.id.bkashNoLayout);
 
+        buttonSubmit = view.findViewById(R.id.submitBtn);
         textViewTime.setText(new SimpleDateFormat("HH:mm").format(new Date()));
         textViewDate.setText(new SimpleDateFormat("dd/MM/yyyy").format(new Date()));
 
@@ -70,13 +78,14 @@ public class ManagerAddPaymentFragment extends Fragment {
 
         textViewBranch.setText(branch);
 
-        textViewBranch.setOnLongClickListener(new View.OnLongClickListener() {
+        textViewPaymentMethod.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onLongClick(View v) {
-                showBranches();
-                return true;
+            public void onClick(View v) {
+                showPaymentMethods();
             }
         });
+
+
 
         buttonSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,52 +97,54 @@ public class ManagerAddPaymentFragment extends Fragment {
         return view;
     }
 
-    private void showBranches() {
-        branches.clear();
-        ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
-        Call<List<Branch>> call = apiInterface.getBranchData();
+    private void showPaymentMethods() {
+        Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(true);
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        dialog.setContentView(R.layout.payment_method_dialog);
+        relativeLayoutBkash = dialog.findViewById(R.id.bkashLayout);
+        relativeLayoutCash = dialog.findViewById(R.id.cashLayout);
 
-        call.enqueue(new Callback<List<Branch>>() {
+        textViewBkash = dialog.findViewById(R.id.bkashTv);
+        textViewCash = dialog.findViewById(R.id.cashTv);
+
+        relativeLayoutBkash.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onResponse(Call<List<Branch>> call, Response<List<Branch>> response) {
-                Log.d(TAG, "onResponse: "+response.body());
-                if (response.body()!=null){
-                    for (int i = 0; i < response.body().size(); i++) {
-                        branches.add(response.body().get(i).getBranchLocation());
-                    }
-                }
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setTitle("Member List");
-                builder.setIcon(R.drawable.branch);
-
-                builder.setItems(branches.toArray(new String[0]), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        textViewBranch.setText(branches.get(i));
-
-                    }
-                }).show();
-
-            }
-
-            @Override
-            public void onFailure(Call<List<Branch>> call, Throwable t) {
-
+            public void onClick(View v) {
+                dialog.dismiss();
+                textViewPaymentMethod.setText(textViewBkash.getText().toString());
+                relativeLayoutTrxId.setVisibility(View.VISIBLE);
+                relativeLayoutBkashNo.setVisibility(View.VISIBLE);
             }
         });
 
+        relativeLayoutCash.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                textViewPaymentMethod.setText(textViewCash.getText().toString());
+                relativeLayoutTrxId.setVisibility(View.GONE);
+                relativeLayoutBkashNo.setVisibility(View.GONE);
+            }
+        });
+
+        dialog.show();
     }
+
 
     private void checkValidation() {
         if (editTextTrackId.getText().toString().isEmpty()){
             editTextTrackId.setError("Tracking ID can't be empty");
         }
-        else if (editTextBkashTrxId.getText().toString().isEmpty()){
+        else if (relativeLayoutTrxId.getVisibility()== View.VISIBLE ){
+            if (editTextBkashTrxId.getText().toString().isEmpty())
             editTextBkashTrxId.setError("Bkash Trx ID can't be empty");
+            else if (editTextBkashNo.getText().toString().isEmpty()){
+                editTextBkashNo.setError("Bkash No can't be empty");
+            }
         }
-        else if (editTextBkashNo.getText().toString().isEmpty()){
-            editTextBkashNo.setError("Bkash No can't be empty");
-        }
+
 //        else if (editTextBkashNo.getText().toString().length()!=11 || editTextBkashNo.getText().toString().startsWith("01") ){
 //            editTextBkashNo.setError("Please input number with 11 digit which starts with 01");
 //        }
@@ -157,8 +168,8 @@ public class ManagerAddPaymentFragment extends Fragment {
         ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
         Call<Payment> call = apiInterface.managerSubmitPayment(
                 editTextTrackId.getText().toString(),
-                editTextBkashTrxId.getText().toString(),
-                editTextBkashNo.getText().toString(),
+                editTextBkashTrxId.getText().toString().isEmpty()?"Payment method is cash":editTextBkashTrxId.getText().toString(),
+                editTextBkashNo.getText().toString().isEmpty()?"Payment method is cash":editTextBkashNo.getText().toString(),
                 editTextContact.getText().toString(),
                 editTextAmount.getText().toString(),
                 textViewBranch.getText().toString(),

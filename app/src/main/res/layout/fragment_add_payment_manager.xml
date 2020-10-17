@@ -39,12 +39,12 @@
                         android:layout_height="wrap_content">
                         <ImageView
                             android:tint="@color/colorPrimaryDark"
-                            android:id="@+id/nameIv"
+                            android:id="@+id/trackIdIv"
                             android:src="@drawable/ic_account_circle_grey600_24dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
                         <EditText
-                            android:layout_toRightOf="@+id/nameIv"
+                            android:layout_toRightOf="@+id/trackIdIv"
                             android:id="@+id/trackIdEt"
                             android:background="@null"
                             android:hint="Enter Parcel Track Id"
@@ -54,6 +54,32 @@
                             android:layout_height="wrap_content" />
                     </RelativeLayout>
                     <RelativeLayout
+                        android:background="@drawable/circular_border"
+                        android:padding="16dp"
+                        android:layout_marginRight="16dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginBottom="4dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:tint="@color/colorPrimaryDark"
+                            android:id="@+id/paymentMethodIv"
+                            android:src="@drawable/ic_account_circle_grey600_24dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:layout_toRightOf="@+id/paymentMethodIv"
+                            android:id="@+id/paymentMethodTv"
+                            android:background="@null"
+                            android:hint="Tap to set payment method"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="8dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:id="@+id/trxLayout"
+                        android:visibility="gone"
                         android:padding="16dp"
                         android:layout_marginRight="16dp"
                         android:layout_marginLeft="16dp"
@@ -63,14 +89,14 @@
                         android:layout_height="wrap_content">
                         <ImageView
                             android:tint="@color/colorPrimaryDark"
-                            android:id="@+id/emailIv"
+                            android:id="@+id/trxIdIv"
                             android:src="@drawable/ic_email_grey600_24dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
                         <EditText
                             android:hint="Enter Bkash Trx Id"
                             android:layout_centerVertical="true"
-                            android:layout_toRightOf="@+id/emailIv"
+                            android:layout_toRightOf="@+id/trxIdIv"
                             android:id="@+id/trxIdEt"
                             android:layout_marginLeft="8dp"
                             android:background="@null"
@@ -78,6 +104,8 @@
                             android:layout_height="wrap_content" />
                     </RelativeLayout>
                     <RelativeLayout
+                        android:id="@+id/bkashNoLayout"
+                        android:visibility="gone"
                         android:background="@drawable/circular_border"
                         android:padding="16dp"
                         android:layout_marginRight="16dp"
@@ -87,14 +115,14 @@
                         android:layout_height="wrap_content">
                         <ImageView
                             android:tint="@color/colorPrimaryDark"
-                            android:id="@+id/locationIv"
+                            android:id="@+id/bkashNoIv"
                             android:src="@drawable/ic_phone_classic_grey600_24dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
                         <EditText
                             android:hint="Enter Bkash number"
                             android:layout_centerVertical="true"
-                            android:layout_toRightOf="@+id/locationIv"
+                            android:layout_toRightOf="@+id/bkashNoIv"
                             android:id="@+id/bkashNoEt"
                             android:background="@null"
                             android:textColor="#212121"
@@ -120,7 +148,7 @@
                             android:layout_height="wrap_content" />
                         <EditText
                             android:inputType="number"
-                            android:hint="Enter Bkash Amount"
+                            android:hint="Enter Amount"
                             android:layout_centerVertical="true"
                             android:layout_toRightOf="@+id/amountIv"
                             android:id="@+id/bkashAmountEt"

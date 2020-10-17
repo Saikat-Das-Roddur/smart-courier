@@ -3,6 +3,7 @@ package com.app.smartcourier.Fragment.ManagerFragment;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,16 +18,20 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import com.app.smartcourier.Config;
+import com.app.smartcourier.Model.Branch;
 import com.app.smartcourier.Model.Parcel;
 import com.app.smartcourier.R;
 import com.app.smartcourier.Server.ApiClient;
 import com.app.smartcourier.Server.ApiInterface;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import retrofit2.Call;
@@ -35,13 +40,14 @@ import retrofit2.Response;
 
 public class ManagerAddParcelFragment extends Fragment {
     EditText editTextTitle, editTextDesc,editTextLocation,editTextContact;
-    TextView  textViewPayment, textViewBranch,
+    TextView  textViewPayment, textViewBranch,textViewDestBranch,
             textViewCash, textViewBkash, textViewDate,textViewTime;
     Button buttonSubmit;
     RelativeLayout relativeLayoutBkash, relativeLayoutCash;
 
     Context context;
     SharedPreferences sharedPreferences;
+    ArrayList<String> branches = new ArrayList<>();
     String TAG = getClass().getSimpleName(), branch = "";
 
     @Nullable
@@ -58,6 +64,7 @@ public class ManagerAddParcelFragment extends Fragment {
         textViewTime = view.findViewById(R.id.timeTv);
         textViewPayment = view.findViewById(R.id.paymentTv);
         textViewBranch = view.findViewById(R.id.branchTv);
+        textViewDestBranch = view.findViewById(R.id.destBranchTv);
         buttonSubmit = view.findViewById(R.id.submitBtn);
 
         Date today = new Date();
@@ -69,6 +76,13 @@ public class ManagerAddParcelFragment extends Fragment {
         branch = sharedPreferences.getString(Config.Branch_SHARED_PREF, "branch");
 
         textViewBranch.setText(branch);
+
+        textViewDestBranch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showBranches();
+            }
+        });
 
 
         textViewPayment.setOnClickListener(new View.OnClickListener() {
@@ -121,6 +135,45 @@ public class ManagerAddParcelFragment extends Fragment {
         dialog.show();
     }
 
+    private void showBranches() {
+        branches.clear();
+        ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
+        Call<List<Branch>> call = apiInterface.getBranchData();
+
+        call.enqueue(new Callback<List<Branch>>() {
+            @Override
+            public void onResponse(Call<List<Branch>> call, Response<List<Branch>> response) {
+                Log.d(TAG, "onResponse: "+response.body());
+                if (response.body()!=null){
+                    for (int i = 0; i < response.body().size(); i++) {
+                        if (!response.body().get(i).getBranchLocation().equalsIgnoreCase(branch)){
+                            branches.add(response.body().get(i).getBranchLocation());
+                        }
+                    }
+                }
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setTitle("Branch List");
+                builder.setIcon(R.drawable.branch);
+
+                builder.setItems(branches.toArray(new String[0]), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                        textViewDestBranch.setText(branches.get(i));
+
+                    }
+                }).show();
+
+            }
+
+            @Override
+            public void onFailure(Call<List<Branch>> call, Throwable t) {
+
+            }
+        });
+
+    }
+
     private void checkValidation() {
         if (editTextTitle.getText().toString().isEmpty()) {
             editTextTitle.setError("Title can't be empty");
@@ -153,6 +206,7 @@ public class ManagerAddParcelFragment extends Fragment {
                 editTextLocation.getText().toString(),
                 textViewPayment.getText().toString(),
                 textViewBranch.getText().toString(),
+                textViewDestBranch.getText().toString(),
                 textViewTime.getText().toString(),
                 textViewDate.getText().toString(),
                 "Pending"

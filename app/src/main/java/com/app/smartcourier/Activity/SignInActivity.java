@@ -160,7 +160,8 @@ public class SignInActivity extends AppCompatActivity {
                         SharedPreferences.Editor editor = sp.edit();
                         //Adding values to editor
                         editor.putString(Config.Branch_SHARED_PREF, branch);
-                        editor.putString(Config.CELL_SHARED_PREF, editTextContactNumber.getText().toString());
+                        editor.putString(Config.Manager_Cell_SHARED_PREF, editTextContactNumber.getText().toString());
+                        editor.putString(Config.CELL_SHARED_PREF,"");
 
                         //Saving values to editor
                         editor.commit();

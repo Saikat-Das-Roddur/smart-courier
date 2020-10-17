@@ -55,7 +55,7 @@ public class MangerProfileActivity extends AppCompatActivity {
         buttonCancel = findViewById(R.id.cancelBtn);
 
         sharedPreferences =getSharedPreferences(Config.SHARED_PREF_NAME, Context.MODE_PRIVATE);
-        getContact = sharedPreferences.getString(Config.CELL_SHARED_PREF, "Not Available");
+        getContact = sharedPreferences.getString(Config.Manager_Cell_SHARED_PREF, "Not Available");
 
         getProfileData();
         buttonUpdate.setOnClickListener(new View.OnClickListener() {
